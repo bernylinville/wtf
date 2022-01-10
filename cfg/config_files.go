@@ -15,6 +15,7 @@ func Initialize(hasCustom bool) {}
 func LoadWtfConfigFile(filePath string) *config.Config {
 	cfg, err := config.ParseYamlFile(filePath)
 	if err != nil {
+		fmt.Printf("ParseYamlFile")
 		fmt.Println(filePath, err)
 		os.Exit(1)
 	}

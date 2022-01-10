@@ -1,6 +1,11 @@
 package flags
 
-import "github.com/olebedev/config"
+import (
+	"fmt"
+	goFlags "github.com/jessevdk/go-flags"
+	"github.com/olebedev/config"
+	"os"
+)
 
 // Flags is the container for command line flag data
 type Flags struct {
@@ -9,6 +14,11 @@ type Flags struct {
 
 	hasCustom bool
 }
+
+var EXTRA = `
+Commands:
+  save-secret <service>
+`
 
 // NewFlags creates an instance of Flags
 func NewFlags() *Flags {
@@ -33,4 +43,12 @@ func (flags *Flags) HasCustomConfig() bool {
 }
 
 // Parse parses the incoming flags
-func (flags *Flags) Parse() {}
+func (flags *Flags) Parse() {
+	parser := goFlags.NewParser(flags, goFlags.Default)
+	if _, err := parser.Parse(); err != nil {
+		if flagsErr, ok := err.(*goFlags.Error); ok && flagsErr.Type == goFlags.ErrHelp {
+			fmt.Printf(EXTRA)
+			os.Exit(0)
+		}
+	}
+}

@@ -49,6 +49,7 @@ func main() {
 
 	currentApp, err := appMan.Current()
 	if err != nil {
+		fmt.Println("appMan.Current")
 		fmt.Printf("\n%s %v\n", aurora.Red("ERROR"), err)
 		os.Exit(1)
 	}
